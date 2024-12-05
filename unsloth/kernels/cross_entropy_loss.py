@@ -382,7 +382,8 @@ def fast_cross_entropy_loss(
         losses: float
     """
     batch, seq_len, d = logits.shape
-    assert(labels.shape == (batch, seq_len))
+    if labels.shape != (batch, seq_len):
+        raise ValueError("labels shape must be (batch, seq_len)")
 
     loss = Fast_CrossEntropyLoss.apply(
         logits.view(batch*seq_len, d),
