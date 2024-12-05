@@ -271,7 +271,8 @@ def test_rms_layernorm(
     # from unsloth.kernels import fast_rms_layernorm
     Y = fast_rms_layernorm(layernorm, XX)
     Y.backward(YY)
-    assert(torch.amax(correct_grad - XX.grad).item() <= 0.05)
+    if torch.amax(correct_grad - XX.grad).item() > 0.05:
+        raise ValueError("Gradient check failed: torch.amax(correct_grad - XX.grad).item() > 0.05")
 pass
 
 
